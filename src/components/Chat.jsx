@@ -2,12 +2,28 @@ import React from 'react'
 import io from 'socket.io-client'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser, getUsers } from '../actions/users'
+import { connect } from 'react-redux'
+import usersSelector from '../selectors/usersSelector'
 
 const socket = io('http://localhost:3030')
+const mapStateToProps = state => {
+    return {
+        getUsers: usersSelector(state)
+    }
+}
 
-function Chat() {
+function Chat(...props) {
+    const dispatch = useDispatch()
+    const [query, setQuery] = useState('')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
+    useEffect(() => {
+        if (!props[0].getUsers.length) {
+            dispatch(getUsers())
+        }
+    }, [dispatch])
     useEffect(() => {
         socket.on('received', (newMessage) => {
             const aux = [{ ...newMessage }]
@@ -35,24 +51,36 @@ function Chat() {
                     <section className="container-section">
                         <div className="container-title">
                             <input
-                                type="search"
                                 placeholder="search"
                                 className="chat-search"
+                                onChange={(e) => {
+                                    setQuery(e.target.value)
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        dispatch(getUser(query))
+                                    }
+                                }}
                             />
-                            <div className="row">
+                            <div className="h-full chat overflow-y-scroll">
                                 <div>
-                                    <h6 className="container-item--">Conectados</h6>
-                                </div>
-                                <div className="contact">
-                                    <div className="">
-                                        <h5 className="contact-item">User</h5>
-                                    </div>
+                                    <h6 className="container-item-- overflow-ellipsis">Online</h6>
+                                    <div className="contact h-9">
+                                        {
+                                            props[0]?.getUsers?.map((user, index) => {
+                                                return (
+                                                    <h5 key={index} className="contact-item overflow-clip overflow-ellipsis">{user.email} </h5>
+                                                )
+                                            })
+                                        }
 
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                         <div className="w-100">
-                            <p className="chat-title-user">Chat</p>
+                            <p className="chat-title-user">GROUP</p>
                             <div className="chat-user-text">
                                 <div className="section">
                                     {
@@ -93,5 +121,4 @@ function Chat() {
         </>
     )
 }
-
-export default Chat
+export default connect(mapStateToProps, null)(Chat)
