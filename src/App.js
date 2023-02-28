@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Register from './components/Register';
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -12,6 +13,7 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/chat" element={<Chat />}></Route>
+          <Route path="*" element={<Login/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
