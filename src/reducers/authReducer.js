@@ -9,7 +9,8 @@ function auth(state = initialState, action) {
                 ...action.message
             }
         case 'LOGIN_USER_ERROR':
-            const { message } = action.message
+            let { message } = action.message
+            message = 'Username or password is not correct'
             return message
         default: {
             return state
