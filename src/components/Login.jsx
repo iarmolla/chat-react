@@ -1,12 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import '../styles/login.css'
+import { singIn } from '../actions/auth'
+import { useDispatch } from 'react-redux'
 
 function Login() {
+    const dispatch = useDispatch()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const navigate = useNavigate()
+  
     return (
         <div className='h-screen w-screen flex items-center justify-center'>
             <section className="min-h-screen flex items-stretch text-white">
-                <div className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center login" >
+                <div className="lg:flex w-1/2 hidden bg-no-repeat bg-cover relative items-center login" >
                     <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
                     <div className="w-full px-24 z-10">
                         <h1 className="text-5xl font-bold text-left tracking-wide">Chat</h1>
@@ -25,19 +32,26 @@ function Login() {
                     </div>
                 </div>
                 <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0" >
-                    <div className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center" >
+                    <div className="absolute hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center" >
                         <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
                     </div>
                     <div className="w-full py-6 z-20">
                         <h1 className="my-6 text-4xl">
                             Sign in
                         </h1>
-                        <form action="" className=" w-full px-4 lg:px-0 mx-auto">
+                        <form action="POST" onSubmit={(e) => {
+                            e.preventDefault()
+                            const user = {
+                                email: email,
+                                password: password
+                            }
+                            dispatch(singIn(user, navigate))
+                        }} className=" w-full px-4 lg:px-0 mx-auto">
                             <div className="pb-2 pt-4">
-                                <input type="email" name="email" id="email" placeholder="Email" className="block w-full p-4 text-lg rounded-sm bg-black" />
+                                <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" placeholder="Email" className="block w-full p-4 text-lg rounded-sm bg-black" />
                             </div>
                             <div className="pb-2 pt-4">
-                                <input className="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" placeholder="Password" />
+                                <input onChange={(e) => setPassword(e.target.value)} className="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" placeholder="Password" />
                             </div>
                             <div className="text-left text-gray-400 hover:underline hover:text-gray-100">
                                 <Link to="/register">Register?</Link>
