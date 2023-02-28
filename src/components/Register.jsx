@@ -1,13 +1,9 @@
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUser } from '../actions/users'
 import { Formik } from 'formik'
 
 function Register() {
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const [username, setUserName] = useState()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 

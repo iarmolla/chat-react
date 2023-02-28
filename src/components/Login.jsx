@@ -7,10 +7,7 @@ import { Formik } from 'formik'
 
 function Login() {
     const dispatch = useDispatch()
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
     const navigate = useNavigate()
-
     return (
         <div className='h-screen w-screen flex items-center justify-center'>
             <section className="min-h-screen flex items-stretch text-white">
