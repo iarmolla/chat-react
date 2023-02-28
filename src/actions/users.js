@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { getToken } from '../helpers/getToken'
 
 export function getUsers() {
     return async (dispatch) => {
         try {
-            const response = await axios.get('http://localhost:3030/users')
+            const token = getToken()
+            const response = await axios.get('http://localhost:3030/users', { headers: { 'x-access-token': token } })
             dispatch(getUsersSuccess(response.data))
         } catch (error) {
             dispatch(getUsersFailed(error))
@@ -28,7 +30,8 @@ export function getUsersFailed(error) {
 export function getUser(query) {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:3030/users/${query}`)
+            const token = getToken()
+            const response = await axios.get(`http://localhost:3030/users/${query}`, { headers: { 'x-access-token': token } })
             dispatch(getUserSuccess(response.data))
         } catch (error) {
             dispatch(getUserFailed(error))
@@ -44,6 +47,9 @@ export function getUserSuccess(users) {
 }
 
 export function getUserFailed(error) {
-    
+    return {
+        type: 'GET_USER_FAILED',
+        error
+    }
 }
 
