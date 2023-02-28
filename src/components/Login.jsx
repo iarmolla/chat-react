@@ -39,8 +39,9 @@ function Login({ ...props }) {
                             Sign in
                         </h1>
                         <Formik
+                            enableReinitialize
                             initialValues={{
-                                email: '',
+                                email: window.localStorage.getItem('email') || '',
                                 password: '',
                             }}
                             validate={(values) => {
