@@ -12,6 +12,7 @@ export function createUser(user, navigate) {
         try {
             const response = await axios.post('http://localhost:3030/signup', user)
             dispatch(createUserSuccess(response.data))
+            window.localStorage.setItem('email', user.email)
             navigate('/login')
         } catch (error) {
             dispatch(createUserError(error.response.data))
