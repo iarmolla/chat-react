@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/login.css'
 import { singIn } from '../actions/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, connect } from 'react-redux'
 import { Formik } from 'formik'
+import getMessage from '../selectors/authSelector'
 
-function Login() {
+function Login({ ...props }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     return (
         <div className='h-screen w-screen flex items-center justify-center'>
             <section className="min-h-screen flex items-stretch text-white">
-                <div className="lg:flex w-1/2 hidden bg-no-repeat bg-cover relative items-center login" >
+                <div className="lg:flex w-1/2 hidden bg-no-repeat bg-center bg-contain relative items-center login" >
                     <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
                     <div className="w-full px-24 z-10">
                         <h1 className="text-5xl font-bold text-left tracking-wide">Chat</h1>
@@ -87,14 +88,17 @@ function Login() {
                                         <Link to="/register">Register?</Link>
                                     </div>
                                     <div>
-                                        <button type="submit" class="group relative flex w-full mt-3 justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                    <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                                        <button type="submit" className="group relative flex w-full mt-3 justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white transition-all hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                                <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                                                 </svg>
                                             </span>
                                             Login
                                         </button>
+                                    </div>
+                                    <div className='mt-4'>
+                                        <p className='text-red-400'>{props.getMessage}</p>
                                     </div>
                                     <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
                                         <a href="#">
@@ -117,4 +121,10 @@ function Login() {
     )
 }
 
-export default Login
+const mapStateToProps = state => {
+    return {
+        getMessage: getMessage(state)
+    }
+}
+
+export default connect(mapStateToProps, null)(Login)
