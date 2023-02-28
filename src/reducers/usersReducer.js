@@ -7,10 +7,7 @@ function users(state = initialState, action) {
             return [
                 ...state, ...action.users
             ]
-        case 'CREATE_USER_SUCCESS':
-            return {
-                ...state, ...action.message
-            }
+       
         case 'GET_USER_SUCCESS':
             return [
                 ...action.users
