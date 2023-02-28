@@ -1,7 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { createUser } from '../actions/users'
 
 function Register() {
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const [username, setUserName] = useState()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     return (
         <div>
             <div class="flex min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 p-24">
@@ -9,16 +17,30 @@ function Register() {
                     <div>
                         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-white">Register your account</h2>
                     </div>
-                    <form class="mt-8 space-y-6" action="#" method="POST">
+                    <form class="mt-8 space-y-6" method='POST' onSubmit={(e) => {
+                        e.preventDefault()
+                        const user = {
+                            username: username,
+                            email: email,
+                            password: password
+                        }
+                        dispatch(createUser(user, navigate))
+                    }}>
                         <div class="-space-y-px rounded-md shadow-sm">
                             <div className="pb-2 pt-4">
-                                <input type="email" name="email" id="email" placeholder="Email" className="text-white block w-full p-4 text-lg rounded-sm bg-black" />
+                                <input onChange={(e) => {
+                                    setEmail(e.target.value)
+                                }} type="email" name="email" id="email" placeholder="Email" className="text-white block w-full p-4 text-lg rounded-sm bg-black" />
                             </div>
                             <div className="pb-2 pt-4">
-                                <input type="username" name="username" id="email" placeholder="Username" className="text-white block w-full p-4 text-lg rounded-sm bg-black" />
+                                <input onChange={(e) => {
+                                    setUserName(e.target.value)
+                                }} type="username" name="username" id="username" placeholder="Username" className="text-white block w-full p-4 text-lg rounded-sm bg-black" />
                             </div>
                             <div className="pb-2 pt-4">
-                                <input className="block w-full p-4 text-lg rounded-sm text-white bg-black" type="password" name="password" id="password" placeholder="Password" />
+                                <input onChange={(e) => {
+                                    setPassword(e.target.value)
+                                }} className="block w-full p-4 text-lg rounded-sm text-white bg-black" type="password" name="password" id="password" placeholder="Password" />
                             </div>
                         </div>
 
