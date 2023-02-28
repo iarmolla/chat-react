@@ -13,7 +13,6 @@ const mapStateToProps = state => {
         getUsers: usersSelector(state)
     }
 }
-
 function Chat(...props) {
     const dispatch = useDispatch()
     const [query, setQuery] = useState('')
@@ -29,6 +28,11 @@ function Chat(...props) {
             const aux = [{ ...newMessage }]
             setMessages([...messages, ...aux])
         })
+        let index = messages.length - 1 .toString()
+        index = `${index} message`
+        const element = document.getElementById(index)
+        element?.scrollIntoView()
+        
     }, [messages])
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -41,6 +45,7 @@ function Chat(...props) {
             const aux = [{ ...newMessage }]
             setMessages([...messages, ...aux])
             setMessage('')
+          
         }
     }
     return (
@@ -73,35 +78,32 @@ function Chat(...props) {
                                                 )
                                             })
                                         }
-
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div className="w-100">
                             <p className="chat-title-user">GROUP</p>
                             <div className="chat-user-text">
-                                <div className="section">
+                                <div className="section" id='message'>
                                     {
                                         messages.map((item, index) => {
                                             if (item.from != 'me') {
                                                 return (
                                                     <div key={index} className='section-user-text'>
-                                                        <button className='text-button-user'>{item?.body}</button>
+                                                        <button id={`${index} message`} className='text-button-user'>{item?.body}</button>
                                                     </div>
                                                 )
                                             } else {
                                                 return (
                                                     <div key={index} className='user-text '>
-                                                        <p className='text-button-user text-button-user--'>{item?.body}</p>
+                                                        <p id={`${index} message`} className='text-button-user text-button-user--'>{item?.body}</p>
                                                     </div>
                                                 )
                                             }
                                         })
                                     }
                                 </div>
-
                             </div>
                             <footer className="footer-chat">
                                 <input
