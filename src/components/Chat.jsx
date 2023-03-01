@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import io from 'socket.io-client'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
@@ -45,12 +45,14 @@ function Chat(...props) {
             const aux = [{ ...newMessage }]
             setMessages([...messages, ...aux])
             setMessage('')
-          
         }
     }
+    const navbar = useMemo(()=> {
+        return <Navbar/>
+    },[])
     return (
         <>
-            <Navbar></Navbar>
+        {navbar}
             <div className="container-chat mt-24">
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <section className="container-section">
