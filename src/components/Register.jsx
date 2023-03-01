@@ -4,7 +4,7 @@ import { createUser } from '../actions/createUser'
 import { Formik } from 'formik'
 import createUserSelector from '../selectors/createUserSelector'
 
-function Register({ ...props }) {
+function Register({ getMessage }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     return (
@@ -84,7 +84,7 @@ function Register({ ...props }) {
                                     </button>
                                 </div>
                                 <div className='mt-4'>
-                                    <p className='text-red-400'>{props.getMessage}</p>
+                                    <p className='text-red-400'>{getMessage}</p>
                                 </div>
                             </form>
                         )}
