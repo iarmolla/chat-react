@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/login.css'
 import { singIn } from '../actions/auth'
@@ -6,7 +5,7 @@ import { useDispatch, connect } from 'react-redux'
 import { Formik } from 'formik'
 import getMessage from '../selectors/authSelector'
 
-function Login({ ...props }) {
+function Login({ getMessage }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     return (
@@ -99,7 +98,7 @@ function Login({ ...props }) {
                                         </button>
                                     </div>
                                     <div className='mt-4'>
-                                        <p className='text-red-400'>{props.getMessage}</p>
+                                        <p className='text-red-400'>{getMessage}</p>
                                     </div>
                                     <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
                                         <a href="#">

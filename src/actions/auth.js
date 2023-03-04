@@ -1,9 +1,9 @@
-import axios from 'axios'
+import api from '../services/users'
 
 export function singIn(user, navigate) {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:3030/signin', user)
+            const response = await api.loginUser(user)
             dispatch(singInSuccess(response.data))
             navigate('/chat')
         } catch (error) {

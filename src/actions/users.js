@@ -1,11 +1,9 @@
-import axios from 'axios'
-import { getToken } from '../helpers/getToken'
+import api from '../services/users'
 
 export function getUsers() {
     return async (dispatch) => {
         try {
-            const token = getToken()
-            const response = await axios.get('http://localhost:3030/users', { headers: { 'x-access-token': token } })
+            const response = await api.getUsers()
             dispatch(getUsersSuccess(response.data))
         } catch (error) {
             dispatch(getUsersFailed(error))
@@ -30,8 +28,7 @@ export function getUsersFailed(error) {
 export function getUser(query) {
     return async (dispatch) => {
         try {
-            const token = getToken()
-            const response = await axios.get(`http://localhost:3030/users/${query}`, { headers: { 'x-access-token': token } })
+            const response = await api.getUser(query)
             dispatch(getUserSuccess(response.data))
         } catch (error) {
             dispatch(getUserFailed(error))

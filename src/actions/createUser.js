@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '../services/users'
 
 export function createUserError(error) {
     return {
@@ -10,9 +10,8 @@ export function createUserError(error) {
 export function createUser(user, navigate) {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:3030/signup', user)
+            const response = await api.createUser(user)
             dispatch(createUserSuccess(response.data))
-            window.localStorage.setItem('email', user.email)
             navigate('/login')
         } catch (error) {
             dispatch(createUserError(error.response.data))
