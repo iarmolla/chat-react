@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getToken } from '../helpers/getToken'
 
 const api = axios.create({
-    baseURL: 'http://localhost:3030'
+    baseURL: process.env.REACT_APP_API_URL
 });
 
 const getUsers = async () => {
