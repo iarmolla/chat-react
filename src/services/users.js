@@ -23,9 +23,14 @@ const loginUser = async (user) => {
     return await api.post('/signin', user)
 }
 
+const messages = async (room) => {
+    return await api.get(`/messages/${room}`)
+}
+
 export default {
     getUsers: getUsers,
     getUser: getUser,
     createUser: createUser,
-    loginUser: loginUser
+    loginUser: loginUser,
+    messages: messages
 }
