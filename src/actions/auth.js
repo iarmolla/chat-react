@@ -4,6 +4,7 @@ export function singIn(user, navigate) {
     return async (dispatch) => {
         try {
             const response = await api.loginUser(user)
+            window.localStorage.setItem('email',user.email)
             dispatch(singInSuccess(response.data))
             navigate('/chat')
         } catch (error) {
