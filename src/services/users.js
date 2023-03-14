@@ -24,7 +24,8 @@ const loginUser = async (user) => {
 }
 
 const messages = async (room) => {
-    return await api.get(`/messages/${room}`)
+    const token = getToken()
+    return await api.get(`/messages/${room}`, { headers: { 'x-access-token': token } })
 }
 
 export default {
