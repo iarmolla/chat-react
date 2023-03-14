@@ -5,7 +5,6 @@ import Navbar from '../components/Navbar'
 import { useDispatch } from 'react-redux'
 import { getUser, getUsers } from '../actions/users'
 import { getMessagesFetch } from '../actions/messages'
-
 import { connect } from 'react-redux'
 import usersSelector from '../selectors/usersSelector'
 import messages from '../selectors/messages'
