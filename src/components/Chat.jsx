@@ -33,7 +33,7 @@ function Chat(...props) {
             dispatch(getUsers())
         }
     }, [dispatch])
-  
+
     useEffect(() => {
         socket.on('received', () => {
             dispatch(getMessagesFetch(room))
@@ -53,6 +53,9 @@ function Chat(...props) {
             socket.emit('message', message, room, window.localStorage.getItem('email'))
             setMessage('')
         }
+    }
+    const updateRoom = (room) => {
+        setRoom(room)
     }
     const navbar = useMemo(() => {
         return <Navbar />
@@ -79,20 +82,9 @@ function Chat(...props) {
                             <div className="h-full chat overflow-y-scroll">
                                 <div className='text-white flex flex-col gap-3 mb-5'>
                                     <h6 className="container-item-- overflow-ellipsis">Rooms</h6>
-                                    <h5 className='contact-item' onClick={async (e) => {
-                                        setRoom('general')
-
-
-                                    }}>General</h5>
-                                    <h5 className='contact-item' onClick={async (e) => {
-                                        setRoom('games')
-
-                                    }}>Games</h5>
-                                    <h5 className='contact-item' onClick={async (e) => {
-                                        setRoom('music')
-
-
-                                    }}>Music</h5>
+                                    <h5 className='contact-item' onClick={() => updateRoom('general')}>General</h5>
+                                    <h5 className='contact-item' onClick={() => updateRoom('games')}>Games</h5>
+                                    <h5 className='contact-item' onClick={() => updateRoom('music')}>Music</h5>
                                 </div>
                                 <div>
                                     <h6 className="container-item-- overflow-ellipsis">Online</h6>
@@ -109,20 +101,22 @@ function Chat(...props) {
                             </div>
                         </div>
                         <div className="w-100">
-                            <p className="chat-title-user">{room}</p>
+                            <p className="chat-title-user mb-5">{room}</p>
                             <div className="chat-user-text">
                                 <div className="section" id='message'>
                                     {
                                         props[0].getMessages?.map((item, index) => {
                                             if (item.email != window.localStorage.getItem('email')) {
                                                 return (
-                                                    <div key={index} className='section-user-text'>
-                                                        <button id={`${index} message`} className='text-button-user'>{item?.message}</button>
+                                                    <div key={index} className='section-user-text relative'>
+                                                        <span className='absolute -top-5 text-xs left-0'>{item.email}</span>
+                                                        <button id={`${index} message`} className='cursor-default text-button-user'>{item?.message}</button>
                                                     </div>
                                                 )
                                             } else {
                                                 return (
-                                                    <div key={index} className='user-text '>
+                                                    <div key={index} className='user-text relative'>
+                                                        <span className='absolute -top-5 text-blue-100 text-xs right-0'>{item.email}</span>
                                                         <p id={`${index} message`} className='text-button-user text-button-user--'>{item?.message}</p>
                                                     </div>
                                                 )
