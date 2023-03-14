@@ -108,14 +108,14 @@ function Chat(...props) {
                                             if (item.email != window.localStorage.getItem('email')) {
                                                 return (
                                                     <div key={index} className='section-user-text relative'>
-                                                        <span className='absolute -top-5 text-xs left-0'>{item.email}</span>
+                                                        <span style={{color: item?.color}} className='absolute -top-5 text-xs left-0'>{item.email}</span>
                                                         <button id={`${index} message`} className='cursor-default text-button-user'>{item?.message}</button>
                                                     </div>
                                                 )
                                             } else {
                                                 return (
                                                     <div key={index} className='user-text relative'>
-                                                        <span className='absolute -top-5 text-blue-100 text-xs right-0'>{item.email}</span>
+                                                        <span className='absolute -top-5 text-blue-100 text-xs right-0' style={{color: item?.color}}>{item.email}</span>
                                                         <p id={`${index} message`} className='text-button-user text-button-user--'>{item?.message}</p>
                                                     </div>
                                                 )
