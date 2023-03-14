@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react'
 import io from 'socket.io-client'
-import save from '../actions/messages'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import { useDispatch } from 'react-redux'
 import { getUser, getUsers } from '../actions/users'
-import { getMessagesFetch, saveMessages } from '../actions/messages'
+import { getMessagesFetch } from '../actions/messages'
 
 import { connect } from 'react-redux'
 import usersSelector from '../selectors/usersSelector'
@@ -20,7 +19,7 @@ const mapStateToProps = state => {
 
 function Chat(...props) {
     const [room, setRoom] = useState('general')
-    const socket = io('http://localhost:3030', {
+    const socket = io(process.env.REACT_APP_API_URL, {
         query: {
             room: room
         }
