@@ -36,20 +36,20 @@ function Chat(...props) {
         socket.on('received', () => {
             dispatch(getMessagesFetch(room))
         })
-        let index = props[0].getMessages.length - 1 .toString()
-        index = `${index} message`
-        const element = document.getElementById(index)
-        element?.scrollIntoView()
     }, [socket])
     useEffect(() => {
         socket.emit('join', room)
         dispatch(getMessagesFetch(room))
+        scroll()
     }, [room])
     const handleSubmit = (e) => {
         e.preventDefault()
         if (message !== '') {
             socket.emit('message', message, room, window.localStorage.getItem('email'))
             setMessage('')
+            setTimeout(() => {
+                scroll()
+            }, 1000)
         }
     }
     const updateRoom = (room) => {
@@ -58,6 +58,10 @@ function Chat(...props) {
     const navbar = useMemo(() => {
         return <Navbar />
     }, [])
+    const scroll = () => {
+        const element = document.getElementById("scroll")
+        element?.scrollIntoView()
+    }
     return (
         <>
             {navbar}
@@ -85,7 +89,7 @@ function Chat(...props) {
                                     <h5 className='contact-item' onClick={() => updateRoom('music')}>Music</h5>
                                 </div>
                                 <div>
-                                    <h6 className="container-item-- overflow-ellipsis">Online</h6>
+                                    <h6 className="container-item-- overflow-ellipsis uppercase">Users</h6>
                                     <div className="contact h-9">
                                         {
                                             props[0]?.getUsers?.map((user, index) => {
@@ -101,27 +105,33 @@ function Chat(...props) {
                         <div className="w-100">
                             <p className="chat-title-user mb-5 uppercase">{room}</p>
                             <div className="chat-user-text">
-                                <div className="section" id='message'>
+                                <div className="section relative" id='message'>
                                     {
                                         props[0].getMessages?.map((item, index) => {
                                             if (item.email != window.localStorage.getItem('email')) {
                                                 return (
                                                     <div key={index} className='section-user-text relative'>
                                                         <span style={{ color: item?.color }} className='absolute -top-5 text-xs left-0'>{item.email}</span>
-                                                        <button id={`${index} message`} className='cursor-default text-button-user'>{item?.message}</button>
+                                                        <button id={index} className='cursor-text text-button-user '>{item?.message}</button>
                                                     </div>
                                                 )
                                             } else {
                                                 return (
                                                     <div key={index} className='user-text relative'>
                                                         <span className='absolute -top-5 text-blue-100 text-xs right-0' style={{ color: item?.color }}>{item.email}</span>
-                                                        <p id={`${index} message`} className='text-button-user text-button-user--'>{item?.message}</p>
+                                                        <button id={index} className='cursor-text text-button-user text-button-user--'>
+                                                            {item?.message}
+                                                        </button>
                                                     </div>
                                                 )
                                             }
                                         })
                                     }
+                                    <div id="scroll" className='absolute bottom-0 left-5'>
+                                        <h1 className='opacity-0'>Texto</h1>
+                                    </div>
                                 </div>
+
                             </div>
                             <footer className="footer-chat">
                                 <input
@@ -129,7 +139,6 @@ function Chat(...props) {
                                     value={`${message != '' ? message : ''}`}
                                     className="chat-footer w-32 sm:w-full"
                                     type="text"
-                                    maxLength={23}
                                     placeholder="send"
                                 />
                                 <button onClick={(e) => handleSubmit(e)}>Send</button>

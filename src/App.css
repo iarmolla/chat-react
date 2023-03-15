@@ -104,6 +104,9 @@ body {
   background-color: #263238;
   border-radius: 6px;
   color: #fff;
+  width: max-content;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
 .text-button-user-- {
