@@ -22,7 +22,7 @@ function Register({ getMessage }) {
                         }}
                         validate={(values) => {
                             let errors = {}
-                            const passwordIsValid = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+                            const passwordIsValid = new RegExp(/.{8,}/)
                             if (!values.email) {
                                 errors.email = "* Missing field*"
                             } else if (
@@ -37,7 +37,7 @@ function Register({ getMessage }) {
                                 errors.password = "* Missing field*"
                             }
                             else if (!passwordIsValid.test(values.password)) {
-                                errors.password = "* Minimum eight characters, at least one letter and one number *"
+                                errors.password = "* Minimum eight characters *"
 
                             }
                             return errors
