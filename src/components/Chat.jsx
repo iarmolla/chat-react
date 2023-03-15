@@ -40,18 +40,14 @@ function Chat(...props) {
     useEffect(() => {
         socket.emit('join', room)
         dispatch(getMessagesFetch(room))
-        setTimeout(() => {
-            scroll()
-        }, 1000)
+      
     }, [room])
     const handleSubmit = (e) => {
         e.preventDefault()
         if (message !== '') {
             socket.emit('message', message, room, window.localStorage.getItem('email'))
             setMessage('')
-            setTimeout(() => {
-                scroll()
-            }, 1000)
+           
         }
     }
     const updateRoom = (room) => {
@@ -60,10 +56,7 @@ function Chat(...props) {
     const navbar = useMemo(() => {
         return <Navbar />
     }, [])
-    const scroll = () => {
-        const element = document.getElementById("scroll")
-        element?.scrollIntoView()
-    }
+   
     return (
         <>
             {navbar}
