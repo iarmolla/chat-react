@@ -40,7 +40,9 @@ function Chat(...props) {
     useEffect(() => {
         socket.emit('join', room)
         dispatch(getMessagesFetch(room))
-        scroll()
+        setTimeout(() => {
+            scroll()
+        }, 1000)
     }, [room])
     const handleSubmit = (e) => {
         e.preventDefault()
