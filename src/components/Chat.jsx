@@ -31,23 +31,22 @@ function Chat(...props) {
             dispatch(getUsers())
         }
     }, [dispatch])
-
+    
     useEffect(() => {
         socket.on('received', () => {
             dispatch(getMessagesFetch(room))
-        })
+        }) 
     }, [socket])
     useEffect(() => {
         socket.emit('join', room)
         dispatch(getMessagesFetch(room))
-      
     }, [room])
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (message !== '') {
+        if (message !== '' && !/^\s*$/.test(message)) {
             socket.emit('message', message, room, window.localStorage.getItem('email'))
             setMessage('')
-           
+
         }
     }
     const updateRoom = (room) => {
@@ -56,7 +55,7 @@ function Chat(...props) {
     const navbar = useMemo(() => {
         return <Navbar />
     }, [])
-   
+
     return (
         <>
             {navbar}
@@ -100,7 +99,7 @@ function Chat(...props) {
                         <div className="w-100">
                             <p className="chat-title-user mb-5 uppercase">{room}</p>
                             <div className="chat-user-text">
-                                <div className="section relative" id='message'>
+                                <div className="section relative message">
                                     {
                                         props[0].getMessages?.map((item, index) => {
                                             if (item.email != window.localStorage.getItem('email')) {
@@ -122,11 +121,7 @@ function Chat(...props) {
                                             }
                                         })
                                     }
-                                    <div id="scroll" className='absolute bottom-0 left-5'>
-                                        <h1 className='opacity-0'>Texto</h1>
-                                    </div>
                                 </div>
-
                             </div>
                             <footer className="footer-chat">
                                 <input
