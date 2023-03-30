@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useRef } from 'react'
 import io from 'socket.io-client'
 import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
@@ -17,6 +17,7 @@ const mapStateToProps = state => {
 }
 
 function Chat(...props) {
+    const lastMessageRef = useRef(null);
     const [room, setRoom] = useState('general')
     const socket = io(process.env.REACT_APP_API_URL, {
         query: {
@@ -31,22 +32,30 @@ function Chat(...props) {
             dispatch(getUsers())
         }
     }, [dispatch])
-    
+
     useEffect(() => {
-        socket.on('received', () => {
-            dispatch(getMessagesFetch(room))
-        }) 
+        socket.on('received', (res) => {
+            if(window.localStorage.getItem('room') == res) {
+                dispatch(getMessagesFetch(room))
+                lastMessage()
+            }
+        })
     }, [socket])
     useEffect(() => {
         socket.emit('join', room)
         dispatch(getMessagesFetch(room))
+        lastMessage()
     }, [room])
+    const lastMessage = () => {
+        setTimeout(() => {
+            lastMessageRef?.current?.lastChild?.scrollIntoView();
+        }, 1000)
+    }
     const handleSubmit = (e) => {
         e.preventDefault()
         if (message !== '' && !/^\s*$/.test(message)) {
             socket.emit('message', message, room, window.localStorage.getItem('email'))
             setMessage('')
-
         }
     }
     const updateRoom = (room) => {
@@ -78,9 +87,18 @@ function Chat(...props) {
                             <div className="h-full chat overflow-y-scroll">
                                 <div className='text-white flex flex-col gap-3 mb-5'>
                                     <h6 className="container-item-- overflow-ellipsis">Rooms</h6>
-                                    <h5 className='contact-item' onClick={() => updateRoom('general')}>General</h5>
-                                    <h5 className='contact-item' onClick={() => updateRoom('games')}>Games</h5>
-                                    <h5 className='contact-item' onClick={() => updateRoom('music')}>Music</h5>
+                                    <h5 className='contact-item' onClick={() => {
+                                        updateRoom('general')
+                                        window.localStorage.setItem('room', 'general')
+                                    }}>General</h5>
+                                    <h5 className='contact-item' onClick={() => {
+                                        window.localStorage.setItem('room', 'games')
+                                        updateRoom('games')
+                                    }}>Games</h5>
+                                    <h5 className='contact-item' onClick={() => {
+                                        window.localStorage.setItem('room', 'music')
+                                        updateRoom('music')
+                                    }}>Music</h5>
                                 </div>
                                 <div>
                                     <h6 className="container-item-- overflow-ellipsis uppercase">Users</h6>
@@ -121,6 +139,7 @@ function Chat(...props) {
                                             }
                                         })
                                     }
+                                    <div className='w-full' ref={lastMessageRef}><h1 className='opacity-0'>lastMessage</h1></div>
                                 </div>
                             </div>
                             <footer className="footer-chat">
