@@ -30,12 +30,13 @@ function Chat(...props) {
     useEffect(() => {
         if (!props[0].getUsers.length) {
             dispatch(getUsers())
+            window.localStorage.setItem('room', 'general')
         }
     }, [dispatch])
 
     useEffect(() => {
         socket.on('received', (res) => {
-            if(window.localStorage.getItem('room') == res) {
+            if (window.localStorage.getItem('room') == res) {
                 dispatch(getMessagesFetch(room))
                 lastMessage()
             }
