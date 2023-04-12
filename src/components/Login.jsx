@@ -4,8 +4,12 @@ import { singIn } from '../actions/auth'
 import { useDispatch, connect } from 'react-redux'
 import { Formik } from 'formik'
 import getMessage from '../selectors/authSelector'
+import { useEffect } from 'react'
 
 function Login({ getMessage }) {
+    useEffect(() => {
+            getMessage = ''
+    },[])
     const dispatch = useDispatch()
     const navigate = useNavigate()
     return (
