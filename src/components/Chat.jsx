@@ -47,6 +47,9 @@ function Chat(...props) {
         dispatch(getMessagesFetch(room))
         lastMessage()
     }, [room])
+    useEffect(()=> {
+        lastMessage()
+    },[])
     const lastMessage = () => {
         setTimeout(() => {
             lastMessageRef?.current?.lastChild?.scrollIntoView();

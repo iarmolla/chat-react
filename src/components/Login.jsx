@@ -1,17 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/login.css'
-import { singIn } from '../actions/auth'
+import { removeMessages, singIn } from '../actions/auth'
 import { useDispatch, connect } from 'react-redux'
 import { Formik } from 'formik'
 import getMessage from '../selectors/authSelector'
 import { useEffect } from 'react'
 
 function Login({ getMessage }) {
-    useEffect(() => {
-            getMessage = ''
-    },[])
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    useEffect(() => {
+        setTimeout(() => {
+            dispatch(removeMessages())
+        },4000)
+    })
     return (
         <div className='h-screen w-screen flex items-center justify-center'>
             <section className="min-h-screen flex items-stretch text-white">
@@ -86,7 +88,6 @@ function Login({ getMessage }) {
                                     </div>
                                     <div className='w-full text-left'>
                                         <label className={`${touched.password && errors.password ? 'error-text text-left  text-sm font-semibold text-red-400' : 'hidden'}`}>{touched.password && errors.password}</label>
-
                                     </div>
                                     <div className="text-left mt-3 text-gray-400 hover:underline hover:text-gray-100">
                                         <Link to="/register">Register?</Link>

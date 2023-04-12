@@ -26,3 +26,9 @@ export function signInError(message) {
         message
     }
 }
+
+export function removeMessages() {
+    return {
+        type: 'REMOVE_MESSAGES',
+    }
+}

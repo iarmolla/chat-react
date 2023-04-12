@@ -10,6 +10,8 @@ function auth(state = initialState, action) {
             let { message } = action.message
             message = 'Username or password is not correct'
             return message
+        case 'REMOVE_MESSAGES': 
+            return ''
         default: {
             return state
         }
