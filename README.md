@@ -11,7 +11,7 @@
 - Clona este repositorio en tu máquina local:
 - git clone [https://github.com/tu-usuario/chat-react.git]
 - Abre el archivo src/services.js y asegúrate de que la variable REACT_APP_API_URL tenga la URL correcta de tu backend:
--
+
 ### Instala las dependencias del proyecto
 
 - npm install
