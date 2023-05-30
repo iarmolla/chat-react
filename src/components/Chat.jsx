@@ -20,7 +20,6 @@ function Chat(...props) {
     const lastMessageRef = useRef(null);
     const [room, setRoom] = useState('general')
     const socket = io(process.env.REACT_APP_API_URL, {
-        transports: ['websocket', 'polling', 'flashsocket'],
         query: {
             room: room
         }
